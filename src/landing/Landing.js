@@ -3,8 +3,19 @@ import FeatureProduct from "./FeatureProduct";
 import ScrollToTopOnMount from "../template/ScrollToTopOnMount";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Landing() {
+
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    // Fetch data from Django API endpoint
+    fetch('http://walaaecommercedr.pythonanywhere.com/products/')
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
   return (
     <>
       <ScrollToTopOnMount />
@@ -23,9 +34,12 @@ function Landing() {
       <h2 className="text-muted text-center mt-4 mb-3">New Arrival</h2>
       <div className="container pb-5 px-lg-5">
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
-          {Array.from({ length: 6 }, (_, i) => {
-            return <FeatureProduct key={i} />;
-          })}
+          
+        {products.map((pro) => (
+        <td>{pro.name}</td>
+
+
+          ))}
         </div>
       </div>
       <div className="d-flex flex-column bg-white py-4">
