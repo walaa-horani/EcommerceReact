@@ -36,8 +36,10 @@ function Landing() {
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
           
         {products.map((pro) => (
-        <td>{pro.name}</td>
-
+          <div>
+            <img src={pro.image}/>
+        <p>{pro.name}</p>
+        </div>
 
           ))}
         </div>
