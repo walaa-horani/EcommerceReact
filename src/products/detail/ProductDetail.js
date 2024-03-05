@@ -1,15 +1,31 @@
 import Image from "../../nillkin-case-1.jpg";
 import RelatedProduct from "./RelatedProduct";
 import Ratings from "react-ratings-declarative";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
 
 function ProductDetail() {
-  function changeRating(newRating) {}
+  const [product, setProduct] = useState({});
 
+  function changeRating(newRating) {}
+  const { id } = useParams();
+  useEffect(() => {
+    
+
+      axios.get(`http://walaaecommercedr.pythonanywhere.com/products/${id}`)
+      .then(res => {
+        console.log(res.data); // Log the response to the console
+        setProduct(res.data);
+        console.log(product);
+      })
+        .catch(err => console.log(err));
+   
+  }, [id]);
   return (
     <div className="container mt-5 py-4 px-xl-5">
       <ScrollToTopOnMount/>
@@ -20,13 +36,13 @@ function ProductDetail() {
               All Prodcuts
             </Link>
           </li>
-          <li className="breadcrumb-item">
+          {/* <li className="breadcrumb-item">
             <a className="text-decoration-none link-secondary" href="!#">
               Cases &amp; Covers
             </a>
-          </li>
+          </li> */}
           <li className="breadcrumb-item active" aria-current="page">
-            Nillkin iPhone X cover
+           {product.name}
           </li>
         </ol>
       </nav>
@@ -60,34 +76,13 @@ function ProductDetail() {
             </div>
           </div>
 
-          {/* <div className="row mt-2">
-            <div className="col-12">
-              <div
-                className="d-flex flex-nowrap"
-                style={{ overflowX: "scroll" }}
-              >
-                {Array.from({ length: 8 }, (_, i) => {
-                  return (
-                    <a key={i} href="!#">
-                      <img
-                        className="cover rounded mb-2 me-2"
-                        width="70"
-                        height="70"
-                        alt=""
-                        src={Image}
-                      />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          </div> */}
+          
         </div>
 
         <div className="col-lg-5">
           <div className="d-flex flex-column h-100">
-            <h2 className="mb-1">Nillkin iPhone X cover</h2>
-            <h4 className="text-muted mb-4">10000 Ks</h4>
+            <h2 className="mb-1">{product.name}</h2>
+            <h4 className="text-muted mb-4">{product.price} $</h4>
 
             <div className="row g-3 mb-4">
               <div className="col">

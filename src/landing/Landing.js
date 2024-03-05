@@ -36,9 +36,32 @@ function Landing() {
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
           
         {products.map((pro) => (
-          <div>
-            <img src={pro.image}/>
-        <p>{pro.name}</p>
+          
+          <div style={{'overflow':'hidden',  position: 'relative',}}>
+      <Link style={{'textDecoration':'none'}}  to={`/productDetails/${pro.id}`}>
+            <img
+        style={{
+          height: '250px',
+          width: '100%',
+          objectFit: 'cover',
+          overflow:'hidden',
+          transition: 'transform 0.3s ease-in-out',
+        }}
+        src={pro.image}
+        alt={pro.name}
+        className="product-image"
+        onMouseOver={(event) => {
+          event.target.style.transform = 'scale(1.1)';
+        }}
+        onMouseOut={(event) => {
+          event.target.style.transform = 'scale(1)';
+        }}
+      />
+            <div className="d-flex justify-content-between mt-3  ">
+            <strong>{pro.name}</strong>
+            <strong  className="text-danger">{pro.price}$</strong>
+            </div>
+            </Link>
         </div>
 
           ))}
