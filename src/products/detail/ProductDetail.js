@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import DOMPurify from 'dompurify';
 
 const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
@@ -14,7 +13,18 @@ function ProductDetail( ) {
    
 
   const [product, setProduct] = useState({});
+  const [selectedImage, setSelectedImage] = useState('');
+  const [cartItems, setCartItems] = useState('');
 
+  useEffect(() => {
+    if (product.images && product.images.length > 0) {
+      setSelectedImage(product.images[0].image);
+    }
+  }, [product]);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
   function changeRating(newRating) {}
   const { id } = useParams();
   useEffect(() => {
@@ -29,6 +39,29 @@ function ProductDetail( ) {
         .catch(err => console.log(err));
    
   }, [id]);
+
+  const addToCart = async (product, quantity, userId) => {
+    console.log('Product:', product);
+
+    try {
+        const payload = {
+            product: product.id,
+            quantity: quantity,
+            user: userId,
+        };
+
+        console.log('Request Payload:', payload);
+
+        const response = await axios.post('https://walaaecommercedr.pythonanywhere.com/cartItems/', payload);
+
+        console.log(response.data.message);
+        // Update local state if needed
+    } catch (error) {
+        console.error('Error adding product to cart', error);
+    }
+};
+
+
   return (
     <div className="container mt-5 py-4 px-xl-5">
       <ScrollToTopOnMount/>
@@ -39,11 +72,7 @@ function ProductDetail( ) {
               All Prodcuts
             </Link>
           </li>
-          {/* <li className="breadcrumb-item">
-            <a className="text-decoration-none link-secondary" href="!#">
-              Cases &amp; Covers
-            </a>
-          </li> */}
+          
           <li className="breadcrumb-item active" aria-current="page">
            {product.name}
           </li>
@@ -53,18 +82,16 @@ function ProductDetail( ) {
         <div className="d-none d-lg-block col-lg-1">
           <div className="image-vertical-scroller">
             <div className="d-flex flex-column">
-              {Array.from({ length: 10 }, (_, i) => {
-                let selected = i !== 1 ? "opacity-6" : "";
-                return (
-                  <a key={i} href="!#">
-                    <img
-                      className={"rounded mb-2 ratio " + selected}
-                      alt=""
-                      src={product.image}
-                    />
-                  </a>
-                );
-              })}
+            {product?.images?.map((image, index) => (
+          <a style={{'cursor':'pointer'}} key={index}  onClick={() => handleImageClick(image?.image)}>
+          <img
+      className={`rounded mb-2 ratio ${index !== 1 ? "opacity-6" : ""}`}
+      alt=""
+      src={`http://walaaecommercedr.pythonanywhere.com${image.image}`}
+    />
+  </a>
+))}
+
             </div>
           </div>
         </div>
@@ -74,8 +101,8 @@ function ProductDetail( ) {
               <img
                 className="border rounded ratio ratio-1x1"
                 alt=""
-                src={product.image}
-              />
+                src={`http://walaaecommercedr.pythonanywhere.com${selectedImage}`}
+                />
             </div>
           </div>
 
@@ -89,7 +116,7 @@ function ProductDetail( ) {
 
             <div className="row g-3 mb-4">
               <div className="col">
-                <button className="btn btn-outline-dark py-2 w-100">
+                <button onClick={addToCart} className="btn btn-outline-dark py-2 w-100">
                   Add to cart
                 </button>
               </div>
