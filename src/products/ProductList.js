@@ -222,7 +222,7 @@ function ProductList() {
                 (viewType.grid ? "row-cols-xl-3" : "row-cols-xl-2")
               }
             >
-              {Array.from({ length: 10 }, (_, i) => {
+              {Array.from({ length: 1 }, (_, i) => {
                 if (viewType.grid) {
                   return (
                     <Product key={i} percentOff={i % 2 === 0 ? 15 : null} />

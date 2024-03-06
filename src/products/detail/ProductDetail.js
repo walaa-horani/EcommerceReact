@@ -5,11 +5,14 @@ import { Link, useParams } from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 
 const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
 
-function ProductDetail() {
+function ProductDetail( ) {
+   
+
   const [product, setProduct] = useState({});
 
   function changeRating(newRating) {}
@@ -57,7 +60,7 @@ function ProductDetail() {
                     <img
                       className={"rounded mb-2 ratio " + selected}
                       alt=""
-                      src={Image}
+                      src={product.image}
                     />
                   </a>
                 );
@@ -71,7 +74,7 @@ function ProductDetail() {
               <img
                 className="border rounded ratio ratio-1x1"
                 alt=""
-                src={Image}
+                src={product.image}
               />
             </div>
           </div>
@@ -102,10 +105,10 @@ function ProductDetail() {
               <dd className="col-sm-8 mb-3">C0001</dd>
 
               <dt className="col-sm-4">Category</dt>
-              <dd className="col-sm-8 mb-3">Cases & Covers</dd>
+              <dd className="col-sm-8 mb-3">{product.category}</dd>
 
               <dt className="col-sm-4">Brand</dt>
-              <dd className="col-sm-8 mb-3">iPhone X</dd>
+              <dd className="col-sm-8 mb-3">{product.brand}</dd>
 
               <dt className="col-sm-4">Manufacturer</dt>
               <dd className="col-sm-8 mb-3">Nillkin</dd>
@@ -139,20 +142,12 @@ function ProductDetail() {
               </dd>
             </dl>
 
-            <h4 className="mb-0">Description</h4>
+            <h4 className="mb-0">About this item</h4>
             <hr />
-            <p className="lead flex-shrink-0">
-              <small>
-                Nature (TPU case) use environmental non-toxic TPU, silky smooth
-                and ultrathin. Glittering and translucent, arbitrary rue
-                reserved volume button cutouts, easy to operate. Side frosted
-                texture anti-slipping, details show its concern; transparent
-                frosted logo shows its taste. The release of self, the flavor of
-                life. Nillkin launched Nature transparent soft cover, only to
-                retain the original phone style. Subverting tradition,
-                redefinition. Thinner design Environmental texture better hand
-                feeling.
-              </small>
+            <p style={{'fontSize':'16px', textAlign: 'justify'}} className="lead flex-shrink-0 ">
+              
+                {product.description}
+             
             </p>
           </div>
         </div>
