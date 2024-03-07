@@ -10,17 +10,21 @@ const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
 
 function ProductDetail( ) {
-   
+  const [productS, setProduct] = useState({});
 
-  const [product, setProduct] = useState({});
+  const [formData, setFormData] = useState({
+    product: "", // Initialize with an empty string
+    id: "", // Assuming product object has an 'id' property
+    quantity: 0,
+   
+  });
   const [selectedImage, setSelectedImage] = useState('');
-  const [cartItems, setCartItems] = useState('');
 
   useEffect(() => {
-    if (product.images && product.images.length > 0) {
-      setSelectedImage(product.images[0].image);
+    if (productS.images && productS.images.length > 0) {
+      setSelectedImage(productS.images[0].image);
     }
-  }, [product]);
+  }, [productS]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -34,32 +38,46 @@ function ProductDetail( ) {
       .then(res => {
         console.log(res.data); // Log the response to the console
         setProduct(res.data);
-        console.log(product);
+        
+       
       })
         .catch(err => console.log(err));
    
   }, [id]);
 
-  const addToCart = async (product, quantity, userId) => {
-    console.log('Product:', product);
-
+  const updateQuantity = async () => {
     try {
-        const payload = {
-            product: product.id,
-            quantity: quantity,
-            user: userId,
+      // Check if Quantity is provided before making the request
+      if (formData.quantity !== 0) {
+        const dataToSend = {
+          quantity: formData.quantity
         };
-
-        console.log('Request Payload:', payload);
-
-        const response = await axios.post('https://walaaecommercedr.pythonanywhere.com/cartItems/', payload);
-
-        console.log(response.data.message);
-        // Update local state if needed
+  
+        const url = `https://walaaecommercedr.pythonanywhere.com/cartItems/${id}/add_to_cart/`;
+        console.log('URL:', url); // Log the URL being used
+        console.log('Data to send:', dataToSend);
+  
+        const response = await axios.post(url, dataToSend);
+  
+        // Handle the response as needed
+        console.log('Response:', response.data);
+      } else {
+        console.log('Quantity is required.');
+      }
     } catch (error) {
-        console.error('Error adding product to cart', error);
+      // Handle errors
+      console.error('Error:', error);
     }
-};
+  };
+  
+  
+  
+  
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
 
   return (
@@ -74,7 +92,7 @@ function ProductDetail( ) {
           </li>
           
           <li className="breadcrumb-item active" aria-current="page">
-           {product.name}
+           {productS.name}
           </li>
         </ol>
       </nav>
@@ -82,7 +100,7 @@ function ProductDetail( ) {
         <div className="d-none d-lg-block col-lg-1">
           <div className="image-vertical-scroller">
             <div className="d-flex flex-column">
-            {product?.images?.map((image, index) => (
+            {productS?.images?.map((image, index) => (
           <a style={{'cursor':'pointer'}} key={index}  onClick={() => handleImageClick(image?.image)}>
           <img
       className={`rounded mb-2 ratio ${index !== 1 ? "opacity-6" : ""}`}
@@ -111,17 +129,18 @@ function ProductDetail( ) {
 
         <div className="col-lg-5">
           <div className="d-flex flex-column h-100">
-            <h2 className="mb-1">{product.name}</h2>
-            <h4 className="text-muted mb-4">{product.price} $</h4>
+            <h2 className="mb-1">{productS.name}</h2>
+            <h4 className="text-muted mb-4">{productS.price} $</h4>
+            <input type="number" name="quantity" value={formData.quantity} onChange={handleInputChange} />
 
             <div className="row g-3 mb-4">
               <div className="col">
-                <button onClick={addToCart} className="btn btn-outline-dark py-2 w-100">
+                <button onClick={updateQuantity} className="btn btn-outline-dark py-2 w-100">
                   Add to cart
                 </button>
               </div>
               <div className="col">
-                <button className="btn btn-dark py-2 w-100">Buy now</button>
+                <button  className="btn btn-dark py-2 w-100">Buy now</button>
               </div>
             </div>
 
@@ -132,10 +151,10 @@ function ProductDetail( ) {
               <dd className="col-sm-8 mb-3">C0001</dd>
 
               <dt className="col-sm-4">Category</dt>
-              <dd className="col-sm-8 mb-3">{product.category}</dd>
+              <dd className="col-sm-8 mb-3">{productS.category}</dd>
 
               <dt className="col-sm-4">Brand</dt>
-              <dd className="col-sm-8 mb-3">{product.brand}</dd>
+              <dd className="col-sm-8 mb-3">{productS.brand}</dd>
 
               <dt className="col-sm-4">Manufacturer</dt>
               <dd className="col-sm-8 mb-3">Nillkin</dd>
@@ -173,7 +192,7 @@ function ProductDetail( ) {
             <hr />
             <p style={{'fontSize':'16px', textAlign: 'justify'}} className="lead flex-shrink-0 ">
               
-                {product.description}
+                {productS.description}
              
             </p>
           </div>
