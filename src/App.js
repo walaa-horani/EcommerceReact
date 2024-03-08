@@ -3,6 +3,7 @@ import ProductDetail from "./products/detail/ProductDetail";
 import { Switch, Route } from "react-router-dom";
 import Landing from "./landing/Landing";
 import ProductList from "./products/ProductList";
+import Cart from "./products/Cart";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         </Route>
         <Route path="/productDetails/:id">
           <ProductDetail />
+        </Route>
+        <Route path="/cart">
+        <Cart />
         </Route>
         <Route path="/" exact>
           <Landing />

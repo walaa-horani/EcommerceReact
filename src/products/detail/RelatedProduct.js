@@ -1,10 +1,34 @@
 import Image from "../../nillkin-case-1.jpg";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+import axios from 'axios';
 
 function RelatedProduct(props) {
   const price = 10000;
   let percentOff;
   let offPrice = `${price}Ks`;
+
+  const [products, setProduct] = useState({});
+  const [categories, setCategories] = useState([]);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    
+
+    axios.get(`http://walaaecommercedr.pythonanywhere.com/products/${id}`)
+    .then(res => {
+      console.log(res.data); // Log the response to the console
+      setCategories(categories.category.products); // Assuming 'category' has a 'products' attribute
+
+      setProduct(res.data);
+      
+     
+    })
+      .catch(err => console.log(err));
+ 
+}, [id]);
+
 
   if (props.percentOff && props.percentOff > 0) {
     percentOff = (
@@ -24,28 +48,32 @@ function RelatedProduct(props) {
   }
 
   return (
-    <Link
-      to="/products/1"
-      className="col text-decoration-none"
-      href="!#"
-      replace
-    >
-      <div className="card shadow-sm">
-        {percentOff}
-        <img
-          className="card-img-top bg-dark cover"
-          height="200"
-          alt=""
-          src={Image}
-        />
-        <div className="card-body">
-          <h5 className="card-title text-center text-dark text-truncate">
-            Nillkin iPhone X cover
-          </h5>
-          <p className="card-text text-center text-muted">{offPrice}</p>
+    <div className="row">
+      {categories.map((product, index) => (
+        <div className="col-md-4" key={product.id}>
+          <div className="card shadow-sm">
+            <Link to={`/productDetails/${product.id}`} replace>
+              {product.percentOff}
+              <img
+                className="card-img-top bg-dark cover"
+                height="200"
+                alt=""
+                src={product.image}
+              />
+            </Link>
+            <div className="card-body">
+              <h6 className="card-title text-center text-dark text-truncate">
+                {product.name}
+              </h6>
+              <p className="card-text text-center  mb-0 text-danger">
+                {product.price} TL
+              </p>
+             
+            </div>
+          </div>
         </div>
-      </div>
-    </Link>
+      ))}
+    </div>
   );
 }
 

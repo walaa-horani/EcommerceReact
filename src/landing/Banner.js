@@ -24,15 +24,13 @@ function BannerImage(props) {
         className="ratio"
         style={{ "--bs-aspect-ratio": "50%", maxHeight: "460px" }}
       >
-        <img
-          className="d-block w-100 h-100 bg-dark cover"
-          alt=""
-          src={props.image}
-        />
+      <img className="d-block w-100 h-100 bg-dark cover" alt="" src={props.image} />
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.6)" }}></div>
+
       </div>
       <div className="carousel-caption d-none d-lg-block">
-        <h5>Banner Header</h5>
-        <p>Some representative placeholder content for the banner.</p>
+        <h5>Discover Endless Shopping Delights!</h5>
+        <p>Explore our curated collection for the latest trends and unbeatable deals.</p>
       </div>
     </div>
   );

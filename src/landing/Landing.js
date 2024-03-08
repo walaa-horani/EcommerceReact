@@ -21,10 +21,8 @@ function Landing() {
       <ScrollToTopOnMount />
       <Banner />
       <div className="d-flex flex-column bg-white py-4">
-        <p className="text-center px-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
+     
+
         <div className="d-flex justify-content-center">
           <Link to="/products" className="btn btn-primary" replace>
             Browse products
@@ -33,17 +31,18 @@ function Landing() {
       </div>
       <h2 className="text-muted text-center mt-4 mb-3">New Arrival</h2>
       <div className="container pb-5 px-lg-5">
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
+        <div className="row row-cols-1  row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
           
         {products.map((pro) => (
           
-          <div style={{'overflow':'hidden',  position: 'relative',}}>
+          <div style={{'overflow':'hidden',   }}>
       <Link style={{'textDecoration':'none'}}  to={`/productDetails/${pro.id}`}>
             <img
         style={{
           height: '250px',
           width: '100%',
           objectFit: 'cover',
+          padding:"5px",
           overflow:'hidden',
           transition: 'transform 0.3s ease-in-out',
         }}
@@ -57,7 +56,7 @@ function Landing() {
           event.target.style.transform = 'scale(1)';
         }}
       />
-            <div className="d-flex justify-content-between mt-3  ">
+            <div  className="d-flex justify-content-between mt-3 ">
             <strong>{pro.name}</strong>
             <strong  className="text-danger">{pro.price}$</strong>
             </div>

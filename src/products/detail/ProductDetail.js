@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
@@ -31,6 +32,8 @@ function ProductDetail( ) {
   };
   function changeRating(newRating) {}
   const { id } = useParams();
+  const history = useHistory();
+
   useEffect(() => {
     
 
@@ -56,6 +59,7 @@ function ProductDetail( ) {
         const url = `https://walaaecommercedr.pythonanywhere.com/cartItems/${id}/add_to_cart/`;
         console.log('URL:', url); // Log the URL being used
         console.log('Data to send:', dataToSend);
+        history.push('/cart')
   
         const response = await axios.post(url, dataToSend);
   
@@ -72,6 +76,7 @@ function ProductDetail( ) {
   
   
   
+   
   
 
   const handleInputChange = (e) => {
@@ -131,7 +136,7 @@ function ProductDetail( ) {
           <div className="d-flex flex-column h-100">
             <h2 className="mb-1">{productS.name}</h2>
             <h4 className="text-muted mb-4">{productS.price} $</h4>
-            <input type="number" name="quantity" value={formData.quantity} onChange={handleInputChange} />
+            <input className="form-control" required style={{'width':'100px', 'margin':'10px 0 20px 0'}} placeholder="quantity" type="number" name="quantity"  onChange={handleInputChange} />
 
             <div className="row g-3 mb-4">
               <div className="col">
@@ -199,19 +204,19 @@ function ProductDetail( ) {
         </div>
       </div>
 
-      <div className="row">
+      {/* <div className="row">
         <div className="col-md-12 mb-4">
           <hr />
           <h4 className="text-muted my-4">Related products</h4>
           <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
             {Array.from({ length: 4 }, (_, i) => {
               return (
-                <RelatedProduct key={i} percentOff={i % 2 === 0 ? 15 : null} />
+                <RelatedProduct key={i}  />
               );
             })}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

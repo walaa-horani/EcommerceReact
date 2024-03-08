@@ -1,9 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+
 
 function Header() {
+  const [cart, setCart] = useState([]);
 
+  useEffect(() => {
+    // Fetch data from Django API endpoint
+    fetch('https://walaaecommercedr.pythonanywhere.com/cartItems/')
+      .then((response) => response.json())
+      .then((data) => setCart(data))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
   const [openedDrawer, setOpenedDrawer] = useState(false)
 
   function toggleDrawer() {
@@ -37,10 +46,10 @@ function Header() {
                 </Link>
               </li>
             </ul>
-            <button type="button" className="btn btn-outline-dark me-3 d-none d-lg-inline">
+            <Link to="/cart" className="btn btn-outline-dark me-3 d-none d-lg-inline">
               <FontAwesomeIcon icon={["fas", "shopping-cart"]} />
-              <span className="ms-3 badge rounded-pill bg-dark">0</span>
-            </button>
+              <span className="ms-3 badge rounded-pill bg-dark">{cart.length}</span>
+            </Link>
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item dropdown">
                 <a
