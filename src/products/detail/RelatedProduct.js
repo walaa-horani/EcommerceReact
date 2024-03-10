@@ -1,14 +1,21 @@
 import Image from "../../nillkin-case-1.jpg";
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
+import OwlCarousel from 'react-owl-carousel2';
+import $ from 'jquery';
+
+import './owl.carousel.css';
+import './owl.theme.default.css';
+
 
 function RelatedProduct(props) {
   const price = 10000;
   let percentOff;
   let offPrice = `${price}Ks`;
+  const location = useLocation();
 
-  const [products, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
 
   const { id } = useParams();
@@ -19,7 +26,6 @@ function RelatedProduct(props) {
     axios.get(`http://walaaecommercedr.pythonanywhere.com/products/${id}`)
     .then(res => {
       console.log(res.data); // Log the response to the console
-      setCategories(categories.category.products); // Assuming 'category' has a 'products' attribute
 
       setProduct(res.data);
       
@@ -46,34 +52,51 @@ function RelatedProduct(props) {
       </>
     );
   }
-
+  const options = {
+    items: 3,
+    margin: 10,
+    loop: true,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    autoplayHoverPause: true,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      768: {
+        items: 2,
+      },
+      992: {
+        items: 3,
+      },
+    },
+  };
   return (
-    <div className="row">
-      {categories.map((product, index) => (
-        <div className="col-md-4" key={product.id}>
-          <div className="card shadow-sm">
-            <Link to={`/productDetails/${product.id}`} replace>
-              {product.percentOff}
-              <img
-                className="card-img-top bg-dark cover"
-                height="200"
-                alt=""
-                src={product.image}
-              />
-            </Link>
-            <div className="card-body">
-              <h6 className="card-title text-center text-dark text-truncate">
+    <div style={{'width':'100%'}}>
+       
+        
+       {product?.related_products && (
+        <OwlCarousel {...options}>
+          {product.related_products.map(relatedProduct => (
+            <div key={relatedProduct?.id}>
+             <Link style={{'textDecoration':'none',}} to={`/productDetails/${relatedProduct.id}`} >
+              <img className="carousel-image"  style={{'height':'250px','objectFit':'cover' }} src={relatedProduct.image} alt={relatedProduct.name} />
+             <div className="d-flex align-items-center justify-content-between mt-3">
+              <h6 className="card-title  text-dark text-truncate">
                 {product.name}
               </h6>
-              <p className="card-text text-center  mb-0 text-danger">
+              <strong className="card-text text-center   mb-0 text-danger">
                 {product.price} TL
-              </p>
-             
+
+              </strong>
+              </div>
+              </Link>
             </div>
-          </div>
-        </div>
-      ))}
-    </div>
+          ))}
+        </OwlCarousel>
+      )}
+       
+      </div>
   );
 }
 

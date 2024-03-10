@@ -12,6 +12,7 @@ const iconPath =
 
 function ProductDetail( ) {
   const [productS, setProduct] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     product: "", // Initialize with an empty string
@@ -66,7 +67,7 @@ function ProductDetail( ) {
         // Handle the response as needed
         console.log('Response:', response.data);
       } else {
-        console.log('Quantity is required.');
+        setErrorMessage('Quantity must be greater than zero.');
       }
     } catch (error) {
       // Handle errors
@@ -137,7 +138,7 @@ function ProductDetail( ) {
             <h2 className="mb-1">{productS.name}</h2>
             <h4 className="text-muted mb-4">{productS.price} $</h4>
             <input className="form-control" required style={{'width':'100px', 'margin':'10px 0 20px 0'}} placeholder="quantity" type="number" name="quantity"  onChange={handleInputChange} />
-
+              <p className="text-danger"> quantity is required</p>
             <div className="row g-3 mb-4">
               <div className="col">
                 <button onClick={updateQuantity} className="btn btn-outline-dark py-2 w-100">
@@ -204,19 +205,19 @@ function ProductDetail( ) {
         </div>
       </div>
 
-      {/* <div className="row">
+      <div className="row">
         <div className="col-md-12 mb-4">
           <hr />
           <h4 className="text-muted my-4">Related products</h4>
           <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
-            {Array.from({ length: 4 }, (_, i) => {
+            {Array.from({ length: 1 }, (_, i) => {
               return (
                 <RelatedProduct key={i}  />
               );
             })}
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -56,39 +56,46 @@ function Cart(props) {
       .catch((error) => console.error('Error removing item from cart:', error));
   };
   return (
-    <div style={{'marginTop':'100px'}} className="container ">
-    <div className="row">
-    {cart.map((cartItem) => (
-        <div className="col-md-4" key={cartItem.id}>
-          <div className="card shadow-sm">
-            <Link to={`/productDetails/${cartItem.id}`} >
-              {cartItem.percentOff}
-              <img
-                className="card-img-top bg-dark cover"
-                height="200"
-                alt=""
-                src={cartItem.product.image}
-              />
-            </Link>
-            <div className="card-body">
-              <h6 className="card-title text-center text-dark text-truncate">
-              {cartItem.product.name}
-              </h6>
-              <p className="card-text text-center  mb-0 text-danger">
-              {cartItem.product.price} TL
-              </p>
-              <div className="d-grid d-block">
-                <button  onClick={() => removeFromCart(cartItem.id)} className="btn btn-outline-dark mt-3">
-                  <FontAwesomeIcon icon={["fas", "cart-plus"]} /> remove from cart
-                </button>
+    <div style={{ 'marginTop': '100px' }} className="container ">
+      {cart.length === 0 ? (
+        <div className="alert alert-info mt-3" role="alert">
+          Your cart is empty. Add some products!
+        </div>
+      ) : (
+        <div className="row">
+          {cart.map((cartItem) => (
+            <div className="col-md-4" key={cartItem.id}>
+              <div className="card shadow-sm">
+                <Link to={`/productDetails/${cartItem.id}`}>
+                  {cartItem.percentOff}
+                  <img
+                    className="card-img-top bg-dark cover"
+                    height="200"
+                    alt=""
+                    src={cartItem.product.image}
+                  />
+                </Link>
+                <div className="card-body">
+                  <h6 className="card-title text-center text-dark text-truncate">
+                    {cartItem.product.name}
+                  </h6>
+                  <p className="card-text text-center  mb-0 text-danger">
+                    {cartItem.product.price} TL
+                  </p>
+                  <div className="d-grid d-block">
+                    <button onClick={() => removeFromCart(cartItem.id)} className="btn btn-outline-dark mt-3">
+                      <FontAwesomeIcon icon={["fas", "cart-plus"]} /> remove from cart
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      )}
     </div>
   );
+  
   
 }
 
