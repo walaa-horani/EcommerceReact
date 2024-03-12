@@ -103,22 +103,7 @@ function ProductDetail( ) {
         </ol>
       </nav>
       <div className="row mb-4">
-        <div className="d-none d-lg-block col-lg-1">
-          <div className="image-vertical-scroller">
-            <div className="d-flex flex-column">
-            {productS?.images?.map((image, index) => (
-          <a style={{'cursor':'pointer'}} key={index}  onClick={() => handleImageClick(image?.image)}>
-          <img
-      className={`rounded mb-2 ratio ${index !== 1 ? "opacity-6" : ""}`}
-      alt=""
-      src={`http://walaaecommercedr.pythonanywhere.com${image.image}`}
-    />
-  </a>
-))}
-
-            </div>
-          </div>
-        </div>
+        
         <div className="col-lg-6">
           <div className="row">
             <div className="col-12 mb-4">
@@ -129,14 +114,29 @@ function ProductDetail( ) {
                 />
             </div>
           </div>
+          <div className="d-flex flex-wrap">
+          <div className="">
+            <div className="d-flex flex-wrap">
+            {productS?.images?.map((image, index) => (
+          <a style={{'cursor':'pointer'}} key={index}  onClick={() => handleImageClick(image?.image)}>
+          <img style={{'width':'100px', 'height':'50px', 'objectFit':'cover', 'marginRight':'15px'}}
+      className={`rounded mb-2 ratio ${index !== 1 ? "opacity-6" : ""}`}
+      alt=""
+      src={`http://walaaecommercedr.pythonanywhere.com${image.image}`}
+    />
+  </a>
+))}
 
+            </div>
+          </div>
+        </div>
           
         </div>
 
         <div className="col-lg-5">
           <div className="d-flex flex-column h-100">
-            <h2 className="mb-1">{productS.name}</h2>
-            <h4 className="text-muted mb-4">{productS.price} $</h4>
+            <h4 className="mb-1">{productS.name}</h4>
+            <h4 className="text-muted mb-4 mt-3">{productS.price} $</h4>
             <input className="form-control" required style={{'width':'100px', 'margin':'10px 0 20px 0'}} placeholder="quantity" type="number" name="quantity"  onChange={handleInputChange} />
               <p className="text-danger"> quantity is required</p>
             <div className="row g-3 mb-4">
@@ -194,7 +194,13 @@ function ProductDetail( ) {
               </dd>
             </dl>
 
-            <h4 className="mb-0">About this item</h4>
+           
+          </div>
+        
+        
+        </div>
+        <div>
+          <h4 className="mb-0">About this item</h4>
             <hr />
             <p style={{'fontSize':'16px', textAlign: 'justify'}} className="lead flex-shrink-0 ">
               
@@ -202,7 +208,6 @@ function ProductDetail( ) {
              
             </p>
           </div>
-        </div>
       </div>
 
       <div className="row">
