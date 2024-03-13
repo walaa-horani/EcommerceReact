@@ -96,10 +96,16 @@ function ProductDetail( ) {
               All Prodcuts
             </Link>
           </li>
-          
-          <li className="breadcrumb-item active" aria-current="page">
-           {productS.name}
+
+          <li className="breadcrumb-item">
+            <Link className="text-decoration-none link-secondary" to="/products">
+            {productS?.category?.name}
+            </Link>
           </li>
+          
+          <li className="breadcrumb-item active text-truncate"  >
+  {productS.name}
+</li>
         </ol>
       </nav>
       <div className="row mb-4">

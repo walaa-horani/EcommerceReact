@@ -1,3 +1,9 @@
+body{
+  font-family: "Roboto Slab", serif;
+  font-optical-sizing: auto;
+
+  font-style: normal;
+}
 @media (max-width: 991.98px) {
   .offcanvas-collapse {
     position: fixed;

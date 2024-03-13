@@ -8,6 +8,7 @@ import Ratings from "react-ratings-declarative";
 
 import './owl.carousel.css';
 import './owl.theme.default.css';
+import './owl.theme.default.min.css';
 
 
 function RelatedProduct(props) {
@@ -80,13 +81,13 @@ function RelatedProduct(props) {
        
         
        {product?.related_products && (
-        <OwlCarousel {...options}>
+        <OwlCarousel options={options}>
           {product.related_products.map(relatedProduct => (
             <div key={relatedProduct?.id}>
             <div style={{ "border":"1px solid #dbdbdb", 'padding':'10px','borderRadius':'10px','overflow':'hidden', 'marginRight':'15px'}}>
 
              <Link style={{'textDecoration':'none',}} to={`/productDetails/${relatedProduct.id}`} >
-              <img className="carousel-image"  style={{'height':'250px','objectFit':'cover' }} src={relatedProduct.image} alt={relatedProduct.name} />
+              <img className="carousel-image"  style={{'height':'250px','objectFit':'cover', 'width':'100%' }} src={relatedProduct.image} alt={relatedProduct.name} />
              <div className="d-flex align-items-center justify-content-between mt-3">
               <h6 className="card-title  text-dark text-truncate">
                 {product.name}

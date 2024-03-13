@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
-
+import logo from './logo.jpg'
 
 function Header() {
   const [cart, setCart] = useState([]);
@@ -30,12 +30,7 @@ function Header() {
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-white border-bottom">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/" onClick={changeNav}>
-            <FontAwesomeIcon
-              icon={["fab", "bootstrap"]}
-              className="ms-1"
-              size="lg"
-            />
-            <span className="ms-2 h5">Shop</span>
+            <img style={{'width':'120px', 'height':'40px', 'objectFit':'cover'}}  src={logo}/>
           </Link>
 
           <div className={"navbar-collapse offcanvas-collapse " + (openedDrawer ? 'open' : '')}>
