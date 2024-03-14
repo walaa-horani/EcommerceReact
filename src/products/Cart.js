@@ -27,11 +27,16 @@ function Cart(props) {
 
 
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
+
   useEffect(() => {
     // Fetch data from Django API endpoint
     fetch('https://walaaecommercedr.pythonanywhere.com/cartItems/')
       .then((response) => response.json())
-      .then((data) => setCart(data))
+      .then((data) => {
+        setCart(data);
+        setLoading(false); // Set loading to false after fetching data
+      })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
@@ -55,6 +60,9 @@ function Cart(props) {
       })
       .catch((error) => console.error('Error removing item from cart:', error));
   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div style={{ 'marginTop': '100px' }} className="container ">
       {cart.length === 0 ? (
