@@ -21,7 +21,7 @@ function Landing() {
   const [newArrival, setNewArrival] = useState([]);
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('http://walaaecommercedr.pythonanywhere.com/products/')
+    fetch('https://walaaecommercedr.pythonanywhere.com/products/')
       .then((response) => response.json())
       .then((data) => setProducts(data))
       
