@@ -1,10 +1,9 @@
 import Image from "../nillkin-case-1.jpg";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
 function Product(props) {
   const [searchTxt, setsearchTxt] = useState('')
@@ -15,7 +14,8 @@ function Product(props) {
     quantity: 0,
    
   });
-  const history = useHistory();
+  const navigate = useNavigate()
+
 
   const price = 10000;
   let percentOff;
@@ -60,7 +60,7 @@ const updateQuantity = async (productId) => {
       const url =`https://walaaecommercedr.pythonanywhere.com/cartItems/${productId}/add_to_cart/`;
       console.log('URL:', url); // Log the URL being used
       console.log('Data to send:', dataToSend);
-      history.push('/cart')
+      navigate('/cart');
 
       const response = await axios.post(url, dataToSend);
 

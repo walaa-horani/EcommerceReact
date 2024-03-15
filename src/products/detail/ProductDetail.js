@@ -1,11 +1,11 @@
 import Image from "../../nillkin-case-1.jpg";
 import RelatedProduct from "./RelatedProduct";
 import Ratings from "react-ratings-declarative";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams ,useNavigate } from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+
 
 const iconPath =
   "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
@@ -13,6 +13,7 @@ const iconPath =
 function ProductDetail( ) {
   const [productS, setProduct] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     product: "", // Initialize with an empty string
@@ -33,7 +34,7 @@ function ProductDetail( ) {
   };
   function changeRating(newRating) {}
   const { id } = useParams();
-  const history = useHistory();
+
 
   useEffect(() => {
     
@@ -60,7 +61,7 @@ function ProductDetail( ) {
         const url = `https://walaaecommercedr.pythonanywhere.com/cartItems/${id}/add_to_cart/`;
         console.log('URL:', url); // Log the URL being used
         console.log('Data to send:', dataToSend);
-        history.push('/cart')
+        navigate('/cart');
   
         const response = await axios.post(url, dataToSend);
   

@@ -1,28 +1,25 @@
 import Template from "./template/Template";
 import ProductDetail from "./products/detail/ProductDetail";
-import { Switch, Route } from "react-router-dom";
 import Landing from "./landing/Landing";
 import ProductList from "./products/ProductList";
 import Cart from "./products/Cart";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Template>
-      <Switch>
-        <Route path="/products" exact>
-          <ProductList />
-        </Route>
-        <Route path="/productDetails/:id">
-          <ProductDetail />
-        </Route>
-        <Route path="/cart">
-        <Cart />
-        </Route>
-        <Route path="/" exact>
-          <Landing />
-        </Route>
-      </Switch>
-    </Template>
+    <>
+     
+   
+     <Routes>
+          <Route path="/react-ecommerce-template" element={<Landing />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/productDetails/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          
+        </Routes>
+    
+    
+    </>
   );
 }
 
