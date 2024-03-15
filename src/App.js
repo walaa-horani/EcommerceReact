@@ -11,7 +11,7 @@ function App() {
      
    
      <Routes>
-          <Route path="/react-ecommerce-template" element={<Landing />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/productDetails/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
