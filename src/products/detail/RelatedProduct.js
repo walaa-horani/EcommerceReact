@@ -28,7 +28,7 @@ function RelatedProduct(props) {
   useEffect(() => {
     
 
-    axios.get(`http://walaaecommercedr.pythonanywhere.com/products/${id}`)
+    axios.get(`https://walaaecommercedr.pythonanywhere.com/products/${id}`)
     .then(res => {
       console.log(res.data); // Log the response to the console
 
